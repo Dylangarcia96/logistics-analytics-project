@@ -183,7 +183,7 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 
 
-1. Spend and Demand
+### Spend and Demand
 
 
 
@@ -191,7 +191,7 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 
 
-2. Inventory
+### Inventory
 
 
 
@@ -201,7 +201,7 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 
 
-3. Supplier Performance
+### Supplier Performance
 
 
 
@@ -213,7 +213,7 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 
 
-4. Spend Drivers
+### Spend Drivers
 
 
 
@@ -227,11 +227,11 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 
 
-	1. Data is synthetically generated and does not represent a specific real company.
+1. Data is synthetically generated and does not represent a specific real company.
    
-	2. Inventory movements are simulated and may not reflect operational constraints such as batch sizes or reorder policies.
+2. Inventory movements are simulated and may not reflect operational constraints such as batch sizes or reorder policies.
    
-	3. Safety stock thresholds are assumed for demonstration purposes.
+3. Safety stock thresholds are assumed for demonstration purposes.
 
 
 
@@ -239,16 +239,16 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 
 
-	* Introduce reorder point logic and automatic replenishment simulation
+* Introduce reorder point logic and automatic replenishment simulation
 
 
 
-	* Add forecasting for demand and inventory consumption
+* Add forecasting for demand and inventory consumption
 
 
 
-	* Segment suppliers by risk profile (cost vs. reliability trade-off)
+* Segment suppliers by risk profile (cost vs. reliability trade-off)
 
 
 
-	* Incorporate ABC / XYZ inventory classification
+* Incorporate ABC / XYZ inventory classification
