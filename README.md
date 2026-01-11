@@ -32,7 +32,7 @@ The main focus is to analyse supplier performance, purchasing behaviour, and inv
 
 
 
-### Business Problem
+## Business Problem
 
 
 
@@ -60,7 +60,7 @@ This project addresses those challenges by combining purchasing, supplier, deliv
 
 
 
-### Data Sources
+## Data Sources
 
 
 
@@ -68,7 +68,7 @@ The dataset was synthetically generated in Python to mimic realistic logistics o
 
 
 
-#### Core Tables
+### Core Tables
 
 
 
@@ -96,7 +96,7 @@ The dataset was synthetically generated in Python to mimic realistic logistics o
 
 
 
-### Data Modelling \& Transformations
+## Data Modelling and Transformations
 
 
 
@@ -104,15 +104,15 @@ The dataset was synthetically generated in Python to mimic realistic logistics o
 
 
 
-* Generated reproducible synthetic data using numpy, pandas, and faker
+	* Generated reproducible synthetic data using numpy, pandas, and faker
 
 
 
-* Implemented opening stock logic to prevent unrealistic negative inventory
+	* Implemented opening stock logic to prevent unrealistic negative inventory
 
 
 
-* Simulated delivery delays using probabilistic distributions
+	* Simulated delivery delays using probabilistic distributions
 
 
 
@@ -124,11 +124,11 @@ Created a star schema with:
 
 
 
-* Fact tables: Fact\_Purchase\_Order, Fact\_Inventory
+	* Fact tables: Fact\_Purchase\_Order, Fact\_Inventory
 
 
 
-* Dimension tables: Supplier, Product, Category, Date
+	* Dimension tables: Supplier, Product, Category, Date
 
 
 
@@ -136,15 +136,15 @@ Built enriched views to simplify reporting using:
 
 
 
-* CTEs
+	* CTEs
 
 
 
-* Window functions
+	* Window functions
 
 
 
-* Stored procedures for parameterised supplier analysis
+	* Stored procedures for parameterised supplier analysis
 
 
 
@@ -152,39 +152,39 @@ Built enriched views to simplify reporting using:
 
 
 
-* Implemented a clean dimensional model
+	* Implemented a clean dimensional model
 
 
 
-* Divided the report into a main diagnostic page and successive analytical pages
+	* Divided the report into a main diagnostic page and successive analytical pages
 
 
 
-* Created the following Key KPIs \& Metrics:
+	* Created the following Key KPIs \& Metrics:
 
 
 
-	* Total Spend
+		* Total Spend
 
 
 
-	* Average Delay (days)
+		* Average Delay (days)
 
 
 
-	* Average On-Time Rate
+		* Average On-Time Rate
 
 
 
-	* Closing Stock Balance
+		* Closing Stock Balance
 
 
 
-	* Days of Inventory Coverage
+		* Days of Inventory Coverage
 
 
 
-	* % Days Below Safety Stock
+		* % Days Below Safety Stock
 
 
 
@@ -192,7 +192,7 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 
 
-### Key Insights
+## Key Insights
 
 
 
@@ -200,7 +200,7 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 
 
-Total spend is relatively well distributed across suppliers, reducing dependency risk. However, monthly spend shows high variability, indicating opportunities for better demand planning and purchase smoothing.
+	Total spend is relatively well distributed across suppliers, reducing dependency risk. However, monthly spend shows high variability, indicating opportunities 	for better demand planning and purchase smoothing.
 
 
 
@@ -208,9 +208,9 @@ Total spend is relatively well distributed across suppliers, reducing dependency
 
 
 
-Total inventory coverage exceeds 300 days, suggesting significant overstocking. As a consequence, holding costs increase, as well as warehouse space usage and obsolescence risk.
+	Total inventory coverage exceeds 300 days, suggesting significant overstocking. As a consequence, holding costs increase, as well as warehouse space usage and 	obsolescence risk.
 
-Frequent inventory fluctuations highlight potential misalignment between purchasing and consumption.
+	Frequent inventory fluctuations highlight potential misalignment between purchasing and consumption.
 
 
 
@@ -218,11 +218,11 @@ Frequent inventory fluctuations highlight potential misalignment between purchas
 
 
 
-Delayed orders are common, though the average delay remains modest (≈ 2–4 days).
+	Delayed orders are common, though the average delay remains modest (≈ 2–4 days).
 
-There is no meaningful correlation between freight cost and on-time delivery, suggesting higher freight spend does not guarantee reliability.
+	There is no meaningful correlation between freight cost and on-time delivery, suggesting higher freight spend does not guarantee reliability.
 
-A negative correlation exists between lead time and on-time rate — shorter lead times improve delivery reliability.
+	A negative correlation exists between lead time and on-time rate — shorter lead times improve delivery reliability.
 
 
 
@@ -230,38 +230,38 @@ A negative correlation exists between lead time and on-time rate — shorter lea
 
 
 
-Most suppliers cluster around a similar average order size. However, order size alone does not drive total spend.
+	Most suppliers cluster around a similar average order size. However, order size alone does not drive total spend.
 
-On the contrary, number of orders is the primary driver of total spend, as evidenced by larger bubbles corresponding to higher spend.
-
-
-
-### Limitations
+	On the contrary, number of orders is the primary driver of total spend, as evidenced by larger bubbles corresponding to higher spend.
 
 
 
-1. Data is synthetically generated and does not represent a specific real company.
+## Limitations
+
+
+
+	1. Data is synthetically generated and does not represent a specific real company.
    
-2. Inventory movements are simulated and may not reflect operational constraints such as batch sizes or reorder policies.
+	2. Inventory movements are simulated and may not reflect operational constraints such as batch sizes or reorder policies.
    
-3. Safety stock thresholds are assumed for demonstration purposes.
+	3. Safety stock thresholds are assumed for demonstration purposes.
 
 
 
-### Next Steps and Enhancements
+## Next Steps and Enhancements
 
 
 
-* Introduce reorder point logic and automatic replenishment simulation
+	* Introduce reorder point logic and automatic replenishment simulation
 
 
 
-* Add forecasting for demand and inventory consumption
+	* Add forecasting for demand and inventory consumption
 
 
 
-* Segment suppliers by risk profile (cost vs. reliability trade-off)
+	* Segment suppliers by risk profile (cost vs. reliability trade-off)
 
 
 
-* Incorporate ABC / XYZ inventory classification
+	* Incorporate ABC / XYZ inventory classification
