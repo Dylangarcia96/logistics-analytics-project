@@ -203,12 +203,12 @@ print("Synthetic supply-chain dataset created successfully!")
 
 Each supplier includes:
 
--Supplier ID
--Supplier name
--Lead time (days)
--On-time delivery rate
--Freight cost
--Country of origin
+- Supplier ID
+- Supplier name
+- Lead time (days)
+- On-time delivery rate
+- Freight cost
+- Country of origin
 
 These attributes later enable correlation analysis between reliability, cost, and lead time.
 
@@ -216,11 +216,11 @@ These attributes later enable correlation analysis between reliability, cost, an
 
 Products were assigned:
 
--A name
--An ID
--A supplier ID
--A product category
--A unit cost
+- A name
+- An ID
+- A supplier ID
+- A product category
+- A unit cost
 
 This structure supports supplier–product–category rollups in Power BI.
 
@@ -228,11 +228,11 @@ This structure supports supplier–product–category rollups in Power BI.
 
 Purchase orders were generated with random order dates over a 1-year window, with variable quantities and a calculated total cost. It includes:
 
--Order ID
--Product ID
--Order Date
--Quantity Ordered
--Total Cost
+- Order ID
+- Product ID
+- Order Date
+- Quantity Ordered
+- Total Cost
 
 #### Inventory Movements (1517 rows - 1517 inventory movements)
 
@@ -240,11 +240,11 @@ An opening balance per product was initialised and OUT movements were constraine
 
 This table includes the following columns:
 
--Movement ID
--Product ID
--Movement Type (OPENING - IN - OUT)
--Quantity
--Movement Date
+- Movement ID
+- Product ID
+- Movement Type (OPENING - IN - OUT)
+- Quantity
+- Movement Date
 
 #### Delivery Times (500 rows - 500 purchase orders)
 
@@ -252,18 +252,76 @@ Delivery performance was simulated independently from purchase orders using expe
 
 This table includes the following columns:
 
--Order ID
--Product ID
--Supplier ID
--Order Date
--Expected Lead Time Days
--Actual Lead Time Days
--Delay Days
--Expected Delivery Date
--Actual Delivery Date
+- Order ID
+- Product ID
+- Supplier ID
+- Order Date
+- Expected Lead Time Days
+- Actual Lead Time Days
+- Delay Days
+- Expected Delivery Date
+- Actual Delivery Date
+
+### 2.4 EDA in Python
+
+```python
+
+# Data exploration - Delivery Times
+dfdel = pd.read_csv('delivery_times.csv')
+dfdel.describe()
+dfdel.info()
+
+# Data exploration - Inventory Movements
+dfinv = pd.read_csv('inventory_movements.csv')
+dfinv.describe()
+dfinv.info()
+
+# Data exploration - Purchase Orders
+dfpo = pd.read_csv('purchase_orders.csv')
+dfpo.describe()
+dfpo.info()
+dfpo.head()
+
+# Data exploration - Products
+dfprod = pd.read_csv('products.csv')
+dfprod.describe()
+dfprod.info()
+
+# Data exploration - Suppliers
+dfsupp = pd.read_csv('suppliers.csv')
+dfsupp.describe()
+dfsupp.info()
+
+# Check that categories in products table don't have misspelings
+dfprod.groupby('category').size()
+
+# Create a category dimension table.
+dfcategory = dfprod[['category']].drop_duplicates().reset_index(drop=True)
+dfcategory['category_id'] = dfcategory.index + 1
+dfcategory.head(5)
+
+# Save category table as csv.
+dfcategory.to_csv("product_categories.csv", index=False)
+
+# Merge category_id back into Products table
+dfprod = dfprod.merge(dfcategory, left_on='category', right_on='category', how='left')
+
+# Remove category column from Products table
+dfprod = dfprod.drop(columns= 'category')
+
+# Check that the change is ok
+dfprod.head()
+
+# Save changes in products table
+dfprod.to_csv("products.csv", index=False)
+
+```
+
+#### Product Categories (5 rows - 5 categories)
+After performing EDA on my tables, I realised that normalise the products table was going to be helpful in creating a star schema in Power BI. For that reason, I created the product category table so as to avoid overloading the products table with repeated rows of category names.
 
 ## 3. SQL Server Modeling
-   3.1 Database Design
+### 3.1 Database Design
 
 All tables were loaded into a SQL Server database named Logistics.
 
