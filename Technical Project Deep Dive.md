@@ -1,12 +1,12 @@
-Logistics Analytics Project – Technical Deep Dive
+# Logistics Analytics Project – Technical Deep Dive
 
-1. Overview
+## 1. Overview
 
 This document provides a technical walkthrough of the end-to-end analytics pipeline implemented in this project, consisting in three main steps:
 
-* Synthetic data generation in Python;
-* Relational modelling and transformations in SQL Server;
-* Analytical modelling, DAX measures, and visualisation logic in Power BI.
+- Synthetic data generation in Python;
+- Relational modelling and transformations in SQL Server;
+- Analytical modelling, DAX measures, and visualisation logic in Power BI.
 
 The goal was to simulate a realistic logistics environment and demonstrate best practices in data engineering, analytics modelling, and insight generation.
 
