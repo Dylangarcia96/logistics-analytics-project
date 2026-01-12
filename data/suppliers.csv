@@ -1,0 +1,21 @@
+supplier_id,supplier_name,country,lead_time_days,on_time_rate,freight_cost
+1,Wright-Watkins,Bouvet Island (Bouvetoya),11,0.93,1494
+2,Harris Ltd,British Virgin Islands,15,0.93,1838
+3,Li-Herman,Mauritania,23,0.73,1682
+4,Lewis and Sons,Slovenia,28,0.8,330
+5,Harrison-Williams,Turkmenistan,26,0.72,2591
+6,Chase-Scott,Cambodia,16,0.97,2633
+7,"Mann, Gordon and Murray",Poland,25,0.88,221
+8,Cordova-Hoffman,Saint Kitts and Nevis,16,0.71,674
+9,"Richardson, Wolfe and Whitehead",Mayotte,14,0.71,2947
+10,"Smith, Lopez and Arias",Fiji,20,0.77,2934
+11,"Vasquez, Gutierrez and Johnson",Brunei Darussalam,23,0.81,1467
+12,"Singh, Cowan and Martinez",Burundi,29,0.71,846
+13,"Ward, Roberts and Michael",Albania,25,0.83,1497
+14,"Gomez, Summers and Spence",Sudan,8,0.97,2261
+15,Zuniga and Sons,Maldives,22,0.81,2812
+16,Snow and Sons,Gambia,6,0.9,1590
+17,"Sanchez, Hughes and Ruiz",Saint Lucia,11,0.88,975
+18,"Rivera, Carter and Perkins",Kyrgyz Republic,19,0.75,2155
+19,Mitchell-Mccall,Tokelau,22,0.89,1221
+20,Carter and Sons,Palestinian Territory,10,0.76,1700
