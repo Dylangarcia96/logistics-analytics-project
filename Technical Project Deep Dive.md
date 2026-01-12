@@ -199,79 +199,70 @@ print("Synthetic supply-chain dataset created successfully!")
 ```
 
 ### 2.3 Core Tables Generated
-Suppliers
+#### Suppliers (20 rows - 20 suppliers)
 
 Each supplier includes:
 
-Lead time (days)
-
-On-time delivery rate
-
-Freight cost
-
-Country of origin
+-Supplier ID
+-Supplier name
+-Lead time (days)
+-On-time delivery rate
+-Freight cost
+-Country of origin
 
 These attributes later enable correlation analysis between reliability, cost, and lead time.
 
-Products
+#### Products (80 rows - 80 products)
 
 Products were assigned:
 
-A supplier
-
-A product category
-
-A unit cost
+-A name
+-An ID
+-A supplier ID
+-A product category
+-A unit cost
 
 This structure supports supplier–product–category rollups in Power BI.
 
-Purchase Orders
+#### Purchase Orders (500 rows - 500 purchase orders)
 
-Purchase orders were generated with:
+Purchase orders were generated with random order dates over a 1-year window, with variable quantities and a calculated total cost. It includes:
 
-Random order dates over a 1-year window
+-Order ID
+-Product ID
+-Order Date
+-Quantity Ordered
+-Total Cost
 
-Variable quantities
+#### Inventory Movements (1517 rows - 1517 inventory movements)
 
-Calculated total cost
+An opening balance per product was initialised and OUT movements were constrained to available stock. This prevents unrealistic negative inventory at the product level.
 
-Each order represents a procurement event, not a shipment.
+This table includes the following columns:
 
-Inventory Movements
+-Movement ID
+-Product ID
+-Movement Type (OPENING - IN - OUT)
+-Quantity
+-Movement Date
 
-Inventory was modeled using signed quantities:
+#### Delivery Times (500 rows - 500 purchase orders)
 
-+quantity → stock inflow (IN)
+Delivery performance was simulated independently from purchase orders using expected lead time from supplier master data, actual lead time generated via a normal distribution, and calculated delay days. This separation reflects real systems where delivery tracking is operationally distinct from procurement.
 
--quantity → stock outflow (OUT)
+This table includes the following columns:
 
-Key design decisions:
+-Order ID
+-Product ID
+-Supplier ID
+-Order Date
+-Expected Lead Time Days
+-Actual Lead Time Days
+-Delay Days
+-Expected Delivery Date
+-Actual Delivery Date
 
-An opening stock level per product was initialized
-
-OUT movements were constrained to available stock
-
-This prevents unrealistic negative inventory at the product level
-
-This approach simplifies:
-
-Running balance calculations
-
-Inventory KPIs in DAX
-
-Delivery Times
-
-Delivery performance was simulated independently from purchase orders using:
-
-Expected lead time from supplier master data
-
-Actual lead time generated via a normal distribution
-
-Calculated delay days
-
-This separation reflects real systems where delivery tracking is operationally distinct from procurement.
-
-3. SQL Server Modeling
+## 3. SQL Server Modeling
    3.1 Database Design
 
 All tables were loaded into a SQL Server database named Logistics.
