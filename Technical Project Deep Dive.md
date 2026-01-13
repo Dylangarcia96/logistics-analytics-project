@@ -10,7 +10,7 @@ This document provides a technical walkthrough of the end-to-end analytics pipel
 
 The goal was to simulate a realistic logistics environment and demonstrate best practices in data engineering, analytics modelling, and insight generation.
 
-## 2. Data Generation in Python
+## 2. Data Generation on Python
 ### 2.1 Objective
 
 With a view to making a unique, creative project, all datasets were synthetically generated while preserving realistic logistics behaviour, particularly when it comes to:
@@ -331,74 +331,134 @@ We can observe that the synthetically generated tables were created successfully
 
 All tables were loaded into a SQL Server database named Logistics.
 
-A star schema was implemented:
+I chose to create a star schema for my Power BI report. This design supports efficient analytical queries and modelling. For this reason, I create the following views:
 
-Fact Tables
+```sql
 
-Fact\_Purchase\_Order
+-- Create a purchase orders enriched view containing information of products and delivery times.
 
-Fact\_Inventory
+USE Logistics
+GO;
 
-Dimension Tables
+CREATE OR ALTER VIEW vw_purchase_orders_enriched AS
+	SELECT po.order_id,
+		po.product_id,
+		pr.category_id,
+		pr.supplier_id,
+		po.order_date,
+		po.quantity_ordered,
+		po.total_cost,
+		d.expected_lead_time_days,
+		d.actual_lead_time_days,
+		d.expected_delivery_date,
+		d.actual_delivery_date,
+		d.delay_days,
+		CASE 
+			WHEN d.delay_days > 0 THEN 'delayed'
+			ELSE 'on time' -- Create a boolean column 'on_time'
+		END AS on_time
+	FROM dbo.purchase_orders po
+	LEFT JOIN dbo.delivery_times d ON po.order_id = d.order_id
+	LEFT JOIN dbo.products pr ON pr.product_id = po.product_id
 
-Dim\_Supplier
+-- Create an inventory movements enriched view containing columns from products, category and supplier tables
 
-Dim\_Product
+CREATE OR ALTER VIEW vw_inventory_enriched AS
+	SELECT i.movement_id,
+		i.product_id,
+		p.supplier_id,
+		p.category_id,
+		i.movement_date,
+		CASE WHEN i.movement_type = 'IN' THEN quantity
+		WHEN i.movement_type = 'OPENING' THEN quantity
+		ELSE -quantity
+		END AS quantity -- To simplify further DAX queries, quantity is now shown as positive and negative values, getting rid of the movement type column
+	FROM dbo.inventory_movements i
+	LEFT JOIN dbo.products p ON i.product_id = p.product_id
 
-Dim\_Product\_Category
+```
 
-Dim\_Date
+### 3.2 Stored Procedures
 
-This design supports efficient analytical queries and Power BI modeling.
+2 distinct stored procedures were implemented:
 
-3.2 Views (Semantic Layer)
+```sql
 
-To simplify downstream consumption, enriched views were created.
+-- Create a stored procedure that returns an order summary per supplier when given a date and a supplier name (parameterised filtering)
 
-Examples:
+USE Logistics
+GO
 
-Product views combining supplier and category attributes
+CREATE OR ALTER PROC dbo.usp_GetSupplierOrderSummary
+	@Supplier NVARCHAR(100) = NULL,
+	@Order_date DATE = NULL
 
-Purchase order views enriched with delivery performance
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT s.supplier_id,
+		s.supplier_name,
+		s.country,
+		COUNT(order_id) AS total_orders,
+		ROUND(SUM(total_cost), 2) AS total_spend,
+		AVG(quantity_ordered) AS avg_order_size,
+		lead_time_days,
+		ROUND(on_time_rate, 2) AS on_time_rate,
+		freight_cost
+	FROM dbo.vw_purchase_orders_enriched po
+	LEFT JOIN dbo.suppliers s ON po.supplier_id = s.supplier_id
+	WHERE (@Supplier IS NULL OR s.supplier_name LIKE '%' + @Supplier + '%' ) AND 
+		(@Order_date IS NULL OR po.order_date >= @Order_date)
+	GROUP BY s.supplier_name, s.supplier_id, s.country, on_time_rate, freight_cost, lead_time_days
+END
 
-Inventory views joined to product and supplier dimensions
+-- Create a stored procedure that returns the running balance of every product when given a date
 
-These views:
+USE Logistics
+GO
 
-Encapsulate join logic
+CREATE OR ALTER PROC usp_GetInventorySnapshot
+	@Date DATE
+AS
+BEGIN
+	SET NOCOUNT ON;
 
-Reduce complexity in Power BI
+	WITH InventoryCTE AS (
+		SELECT product_id,
+		movement_date,
+		quantity,
+		movement_type,
+		SUM(
+			CASE WHEN movement_type = 'IN' THEN quantity
+			 WHEN movement_type = 'OPENING' THEN quantity
+			 ELSE -quantity
+			 END
+			 )
+			OVER (PARTITION BY product_id
+				ORDER BY movement_date
+				ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) 
+				AS running_balance
+		FROM inventory_movements
+		)
+	SELECT p.product_id,
+		p.product_name,
+		COALESCE(MAX(i.running_balance), 0) AS quantity_on_hand -- Avoid NULLs if quantity on hand is 0
+	FROM dbo.products p
+	LEFT JOIN InventoryCTE i ON p.product_id = i.product_id
+		AND i.movement_date <= @Date
+	GROUP BY p.product_name, p.product_id
+END
 
-Act as a semantic layer between raw data and reporting
 
-3.3 Stored Procedures
+```
 
-Stored procedures were implemented to:
+### Conclusions on SQL
 
-Retrieve supplier performance summaries
+2 views and 2 stored procedures were successfully created by using different techniques, such as Common Table Expressions (CTEs), Window functions (running totals), conditional logic, aggregations and grouping, and parameterised procedures
+This demonstrates my knowledge when it comes to reusable SQL logic, while at the same time, a backend analytics capability beyond Power BI.
 
-Support parameterized filtering (supplier, date)
-
-This demonstrates:
-
-Reusable SQL logic
-
-Backend analytics capability beyond Power BI
-
-3.4 SQL Techniques Used
-
-Common Table Expressions (CTEs)
-
-Window functions (running totals)
-
-Conditional logic
-
-Aggregations and grouping
-
-Parameterized procedures
-
-4. Power BI Data Model
-   4.1 Model Structure
+## 4. Power BI Data Model
+### 4.1 Model Structure
 
 Power BI uses a clean star schema mirroring the SQL model.
 
