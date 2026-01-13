@@ -463,15 +463,33 @@ This demonstrates my knowledge when it comes to reusable SQL logic, while at the
 
 Firstly, I created a connection between Power BI and Microsoft SQL Server in order to import the tables into Power BI. I decided to import them rather than using Direct Query due to the small size of the tables and the fact that we do not require live data updates.
 
-Secondly, I opened up Power Query to transform my tables and make sure they are clean and correct in order to avoid inconsistencies further ahead.
-The following transformations took place:
+Secondly, I opened up Power Query to transform my tables and made sure they are clean and correct in order to avoid inconsistencies further ahead. However, since the tables were generated synthetically, we do not expect to carry out significative transformations. 
 
 - Rename the tables and group them as fact tables and dimension tables, as seen below:
 
 ![alt text](image.png)
 
+- Dropping duplicates on my keys to assure a correct relationship between the tables.
+```md
+```DAX
+  = Table.Distinct(dbo_suppliers, {"supplier_id"}) 
+  = Table.Distinct(#"Changed Type", {"product_id"})
+  = Table.Distinct(dbo_product_categories, {"category_id"})
+```
+- None of the tables have errors nor empty values. 
 
+- Creation of a date table using the following DAX:
 
+Dim_Date = 
+ADDCOLUMNS(
+    CALENDAR(DATE(2025, 1, 1), DATE(2026, 01, 31)),
+    "Year", YEAR([Date]),
+    "Month", FORMAT([Date], "MMM"),
+    "Month Number", MONTH([Date]),
+    "Year Month", FORMAT([Date], "MM-YYYY"),
+    "Day Of Week", FORMAT([Date], "ddd"),
+    "Day Of Week Number", WEEKDAY([Date], 2)
+)
 
 
 ### 4.1 Model Structure
