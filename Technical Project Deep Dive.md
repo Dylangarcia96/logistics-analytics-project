@@ -470,7 +470,6 @@ Secondly, I opened up Power Query to transform my tables and made sure they are 
 ![alt text](image.png)
 
 - Dropping duplicates on my keys to assure a correct relationship between the tables.
-```md
 ```DAX
   = Table.Distinct(dbo_suppliers, {"supplier_id"}) 
   = Table.Distinct(#"Changed Type", {"product_id"})
@@ -479,7 +478,7 @@ Secondly, I opened up Power Query to transform my tables and made sure they are 
 - None of the tables have errors nor empty values. 
 
 - Creation of a date table using the following DAX:
-
+```DAX
 Dim_Date = 
 ADDCOLUMNS(
     CALENDAR(DATE(2025, 1, 1), DATE(2026, 01, 31)),
@@ -490,6 +489,11 @@ ADDCOLUMNS(
     "Day Of Week", FORMAT([Date], "ddd"),
     "Day Of Week Number", WEEKDAY([Date], 2)
 )
+
+```
+
+It supports time intelligence, monthly and yearly aggregations, slicers and trend analysis, and lastly, it avoids reliance on implicit date hierarchies.
+
 
 
 ### 4.1 Model Structure
@@ -505,18 +509,6 @@ Single-direction filtering
 Date dimension drives all time intelligence
 
 Redundant descriptive columns were removed from fact tables to avoid ambiguity and duplication.
-
-4.2 Date Dimension
-
-A dedicated date table was created to support:
-
-Time intelligence
-
-Monthly and yearly aggregation
-
-Slicers and trend analysis
-
-This avoids reliance on implicit date hierarchies.
 
 5. DAX Measures \& KPIs
    5.1 Inventory Logic
