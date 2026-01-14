@@ -607,7 +607,35 @@ It also allows filtering by category, modifying the position of the bubbles dyna
 
 ![alt text](Supplier_Analysis.png)
 
-- **Correlation analysis**: Its main function is to study the relationship between different variables. On-time rate vs. freight cost and on-time rate vs. lead time correlations allows for patterns discoveries. Further down on the page, there is a bubble chart showing one bubble per supplier, and their positions depending on the average order size and the total spend; their size is determined by the number of orders, a visual cue designed to easily identify drivers for total spend.
+The quadrants' colours have been made possible by the following DAX measure that dynamically changes bubbles' colours depending on which quadrant the supplier falls into:
+
+```DAX
+Quadrants Colour = -- Returns a colour depending on which quadrant the supplier falls into
+VAR OnTimeRate = [Average On Time Rate]
+VAR TotalSpend = [Total Spend]
+
+VAR AvgOnTimeRate_AllSuppliers =
+    CALCULATE(
+        [Average On Time Rate],
+        ALL(Dim_Supplier)
+    )
+
+VAR AvgSpend_AllSuppliers =
+    CALCULATE(
+        MEDIANX(ALL(Dim_Supplier), [Total Spend]) -- Median instead of average to avoid skew from high-spend outliers
+    )
+
+RETURN
+SWITCH(
+    TRUE(),
+    OnTimeRate >= AvgOnTimeRate_AllSuppliers && TotalSpend >= AvgSpend_AllSuppliers, 1,   -- Strategic
+    OnTimeRate <  AvgOnTimeRate_AllSuppliers && TotalSpend >= AvgSpend_AllSuppliers, 2,   -- High Risk
+    OnTimeRate <  AvgOnTimeRate_AllSuppliers && TotalSpend <  AvgSpend_AllSuppliers, 3,   -- Non-core
+    OnTimeRate >= AvgOnTimeRate_AllSuppliers && TotalSpend <  AvgSpend_AllSuppliers, 4    -- Emerging
+)
+```
+
+- **Correlation analysis**: Its main function is to study the relationship between different variables. *On-time rate vs. freight cost* and *on-time rate vs. lead time* correlations allows for patterns discoveries. Further down on the page, there is a bubble chart showing one bubble per supplier, and their positions depending on the average order size and the total spend. Their size is determined by the number of orders, a visual cue designed to easily identify drivers for total spend.
 
 ![alt text](Correlation_Analysis.png)
 
@@ -615,59 +643,58 @@ It also allows filtering by category, modifying the position of the bubbles dyna
 
 - Waterfall chart chosen to accurately represent spend decomposition among suppliers, instead of a simple bar/column chart. A drill down capability offers precise analysis by supplier, category, and product. The chart's tooltip enables a further detailed pie chart showing orders status proportion between on-time and delayed orders.
 
-- Line and area charts for trends for both inventory levels and spend. Average lines are used to add context to the trends, and a safety stock line is used to pinpoint exact times where inventory levels are below it.
+- Line and area charts for trends for both inventory levels and spend. Average lines are used to add context to the trends, and a safety stock line is used to pinpoint exact times where inventory levels are suboptimal.
 
 - Scatter plots for correlation analysis. 
 
 - Conditional formatting on the % of Days below Safety stock KPI for risk highlighting.
 
-- Bookmarks for filter control that show/hide filters to avoid cluttering the dashboard and allows the viewer to focus on the charts. Two additional information icons have been positioned to further clarify KPIs.
+- Bookmarks for filter control that show/hide filters to avoid cluttering the dashboard and allow the viewer to focus on the charts. Two additional information icons have been positioned to further clarify KPIs.
 
-7. Key Analytical Takeaways
+## 7. Insights
 
-From a technical perspective, the project demonstrates:
+### Spend and Demand
+Total spend is relatively well distributed across suppliers, reducing dependency risk. However, monthly spend shows high variability, indicating opportunities for better demand planning and purchase smoothing.
 
-End-to-end ownership of the data lifecycle
+### Inventory
+Total inventory coverage exceeds 300 days, suggesting significant overstocking. As a consequence, holding costs increase, as well as warehouse space usage and obsolescence risk.
+Frequent inventory fluctuations highlight potential misalignment between purchasing and consumption.
 
-Proper dimensional modeling
+### Supplier Performance
+Delayed orders are common, though the average delay remains modest (≈ 2–4 days).
+There is no meaningful correlation between freight cost and on-time delivery, suggesting higher freight spend does not guarantee reliability.
+A negative correlation exists between lead time and on-time rate. That means shorter lead times improve delivery reliability.
 
-Correct handling of time-dependent metrics
+### Spend Drivers
+Most suppliers cluster around a similar average order size. However, order size alone does not drive total spend. On the contrary, number of orders is the primary driver of total spend, as evidenced by larger bubbles corresponding to higher spend.
 
-Awareness of DAX evaluation context pitfalls
+## 8. Limitations and Assumptions
 
-Thoughtful visual and interaction design
+- Data is synthetic and illustrative    
 
-8. Limitations \& Assumptions
+- Safety stock thresholds are assumed
 
-Data is synthetic and illustrative
+- No real operational constraints (MOQ, batching, contracts)
 
-Safety stock thresholds are assumed
+- These limitations are explicitly acknowledged to avoid over-interpretation.
 
-No real operational constraints (MOQ, batching, contracts)
+## 9. Next steps
 
-These limitations are explicitly acknowledged to avoid over-interpretation.
+This projects has a lot of room to grow. It would be ideal to simulate a reorder point in the fact inventory table so that it becomes a more realistic approaching to analysing inventory.
+Furthermore, we could analyse suppliers by cluster instead of individually by assigning them a spend-risk score.
+Likewise, an ABC / XYZ inventory segmentation approach is likely to pave the way to unlocking further insights.
 
-9. Potential Enhancements
+## 10. Conclusion
 
-Reorder point simulation
-
-Forecast-based consumption modeling
-
-Supplier risk scoring
-
-ABC / XYZ inventory segmentation
-
-10. Conclusion
-
-This project demonstrates a production-style analytics workflow, from data generation through modeling to insight communication.
+This project demonstrates a production-style analytics workflow, from data generation through modelling to insight communication.
 
 It emphasizes:
 
-Analytical correctness
+- Analytical correctness
 
-Modeling discipline
+- Modelling discipline
 
-Business relevance
+- Business relevance
 
-Clear storytelling
+- Clear storytelling
 
