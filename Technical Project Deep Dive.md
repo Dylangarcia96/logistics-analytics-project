@@ -496,8 +496,8 @@ The data model follows a star-schema design with two fact tables (purchase order
 
 ![alt text](Data_model.png)
 
-### 5. DAX Measures and KPIs
-   ## 5.1 Inventory Logic
+## 5. DAX Measures and KPIs
+   ### 5.1 Inventory Logic
 
 - Closing stock balance: Returns inventory as of the selected date context.
 Since the column quantities in the fact inventory table is signed, then SUM(quantity) = net movement. However, running balances have been calculated via date-aware measures so that the KPI will vary when different filters are selected.
@@ -548,19 +548,41 @@ VAR AverageDailyOut = AVERAGEX(FILTER(VALUES(Dim_Date[Date]), [TotalOut] > 0), [
 RETURN DIVIDE([Closing Stock Balance], AverageDailyOut)
 ```
 
-5.2 Performance KPIs
+- % Days Below Safety Stock: Returns a percentage value of the days when inventory value was below safety stock (500 units chosen randomly) within the selected time period. 
 
-Total Spend
+```DAX
+% Days below Safety Stock = 
+VAR DaysBelowSafetyStock = CALCULATE(COUNTROWS(Dim_Date), FILTER(Dim_Date, [Closing Stock Balance] < 500))
+VAR TotalDays = COUNTROWS(Dim_Date)
 
-Average Delay (days)
+RETURN DIVIDE(DaysBelowSafetyStock, TotalDays)
+```
 
-Average On-Time Rate
+### 5.2 Performance KPIs
 
-% Days Below Safety Stock
+- Total Spend
 
-These KPIs dynamically respond to slicers and cross-filtering.
+```DAX
+Total Spend = SUM(Fact_Purchase_Order[total_cost])
+```
 
-6. Visual Design \& Interactivity
+- Average Delay (days): Calculates the average delay days only including the days marked as 'delayed', i.e: when delay days > 0.
+
+```DAX
+Average Delay = 
+CALCULATE(
+    AVERAGE(Fact_Purchase_Order[delay_days]),
+    Fact_Purchase_Order[on_time] = "delayed"
+)
+```
+
+- Average On-Time Rate
+
+```DAX
+Average On Time Rate = AVERAGE(Dim_Supplier[on_time_rate])
+```
+
+## 6. Visual Design \& Interactivity
    6.1 Dashboard Structure
 
 The report is split into logical sections:
