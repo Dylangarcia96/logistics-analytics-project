@@ -589,11 +589,21 @@ All KPIs and measures created respond well to drill down and filters.
 
 The report is split into logical sections:
 
-- Main dashboard: an operational overview of the logistics department, allowing tracking of purchase costs, supplier performance, inventory snapshots and expenses trends.
+- Main dashboard: An operational overview of the logistics department, allowing tracking of purchase costs, supplier performance, inventory snapshots and expense trends.
 
 ![alt text](Logistics_Dashboard.png)
 
-- Supplier analysis – performance trade-offs
+- Supplier analysis: Allows supplier performance analysis identifying 4 clear quadrants:
+
+A. Strategic Suppliers (green bubbles): These suppliers combine high financial impact with strong delivery performance, making them ideal candidates for strategic partnerships.
+
+B. High Risk Suppliers (red bubbles): A subset of suppliers that are critical to operations but highly unreliable.
+
+C. Non Core Suppliers (blue bubbles): Low-spend, low-reliability suppliers that contribute limited value and may be candidates for consolidation.
+
+D. Emerging / Growth Suppliers (pink bubbles): Highly reliable but low-spend suppliers that represent potential alternatives to reduce dependency on underperforming high-spend suppliers.
+
+It also allows filtering by category, modifying the position of the bubbles dynamically. It is important to say that some suppliers, when filtered by category, are positioned in less quadrants due to spend distribution.
 
 ![alt text](Supplier_Analysis.png)
 
