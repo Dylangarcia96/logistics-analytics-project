@@ -589,51 +589,39 @@ All KPIs and measures created respond well to drill down and filters.
 
 The report is split into logical sections:
 
-- Main dashboard: An operational overview of the logistics department, allowing tracking of purchase costs, supplier performance, inventory snapshots and expense trends.
+- **Main dashboard**: An operational overview of the logistics department, allowing tracking of purchase costs, supplier performance, inventory snapshots and expense trends.
 
 ![alt text](Logistics_Dashboard.png)
 
-- Supplier analysis: Allows supplier performance analysis identifying 4 clear quadrants:
+- **Supplier analysis**: Allows supplier performance analysis identifying 4 clear quadrants:
 
-A. Strategic Suppliers (green bubbles): These suppliers combine high financial impact with strong delivery performance, making them ideal candidates for strategic partnerships.
+A. **Strategic Suppliers (green bubbles)**: These suppliers combine high financial impact with strong delivery performance, making them ideal candidates for strategic partnerships.
 
-B. High Risk Suppliers (red bubbles): A subset of suppliers that are critical to operations but highly unreliable.
+B. **High Risk Suppliers (red bubbles)**: A subset of suppliers that are critical to operations but highly unreliable.
 
-C. Non Core Suppliers (blue bubbles): Low-spend, low-reliability suppliers that contribute limited value and may be candidates for consolidation.
+C. **Non Core Suppliers (blue bubbles)**: Low-spend, low-reliability suppliers that contribute limited value and may be candidates for consolidation.
 
-D. Emerging / Growth Suppliers (pink bubbles): Highly reliable but low-spend suppliers that represent potential alternatives to reduce dependency on underperforming high-spend suppliers.
+D. **Emerging / Growth Suppliers (pink bubbles)**: Highly reliable but low-spend suppliers that represent potential alternatives to reduce dependency on underperforming high-spend suppliers.
 
 It also allows filtering by category, modifying the position of the bubbles dynamically. It is important to say that some suppliers, when filtered by category, are positioned in less quadrants due to spend distribution.
 
 ![alt text](Supplier_Analysis.png)
 
-Correlation analysis – relationship exploration
+- **Correlation analysis**: Its main function is to study the relationship between different variables. On-time rate vs. freight cost and on-time rate vs. lead time correlations allows for patterns discoveries. Further down on the page, there is a bubble chart showing one bubble per supplier, and their positions depending on the average order size and the total spend; their size is determined by the number of orders, a visual cue designed to easily identify drivers for total spend.
 
 ![alt text](Correlation_Analysis.png)
 
-6.2 Visual Techniques Used
+### 6.2 Visual Techniques
 
-Waterfall charts for spend decomposition
+- Waterfall chart chosen to accurately represent spend decomposition among suppliers, instead of a simple bar/column chart. A drill down capability offers precise analysis by supplier, category, and product. The chart's tooltip enables a further detailed pie chart showing orders status proportion between on-time and delayed orders.
 
-Line and area charts for trends
+- Line and area charts for trends for both inventory levels and spend. Average lines are used to add context to the trends, and a safety stock line is used to pinpoint exact times where inventory levels are below it.
 
-Scatter plots for correlation analysis
+- Scatter plots for correlation analysis. 
 
-Conditional formatting for risk highlighting
+- Conditional formatting on the % of Days below Safety stock KPI for risk highlighting.
 
-Tooltips for contextual detail
-
-Bookmarks for filter control
-
-6.3 Design Decisions
-
-Negative inventory visually highlighted
-
-Safety stock thresholds explicitly marked
-
-Drill-downs limited to avoid over-filtering confusion
-
-Analytical visuals separated from KPI dashboards
+- Bookmarks for filter control that show/hide filters to avoid cluttering the dashboard and allows the viewer to focus on the charts. Two additional information icons have been positioned to further clarify KPIs.
 
 7. Key Analytical Takeaways
 
