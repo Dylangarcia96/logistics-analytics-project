@@ -124,7 +124,7 @@ Created a star schema with:
 
 
 
-	* Fact tables: Fact\_Purchase\_Order, Fact\_Inventory
+	* Fact tables: Fact_Purchase_Order, Fact_Inventory
 
 
 
@@ -175,7 +175,7 @@ Built enriched views to simplify reporting using CTEs, Window Functions and Stor
 
 
 
-These KPIs dynamically respond to date, supplier, product, and category filters and drill downs from other charts
+These KPIs dynamically respond to date, supplier, product, and category filters and drill downs from other charts.
 
 
 
@@ -252,3 +252,5 @@ On the contrary, number of orders is the primary driver of total spend, as evide
 
 
 * Incorporate ABC / XYZ inventory classification
+
+**View the full project** [here](https://github.com/Dylangarcia96/logistics-analytics-project/blob/main/Technical%20Project%20Deep%20Dive.md)
