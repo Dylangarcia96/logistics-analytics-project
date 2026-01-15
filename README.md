@@ -177,7 +177,7 @@ Built enriched views to simplify reporting using CTEs, Window Functions and Stor
 
 These KPIs dynamically respond to date, supplier, product, and category filters and drill downs from other charts.
 
-
+![alt text](Logistics_Dashboard.png)
 
 ## Key Insights
 

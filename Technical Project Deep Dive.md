@@ -10,7 +10,7 @@ This document provides a technical walkthrough of the end-to-end analytics pipel
 
 The goal was to simulate a realistic logistics environment and demonstrate best practices in data engineering, analytics modelling, and insight generation.
 
-## 2. Data Generation on Python
+## 2. Data Generation in Python
 ### 2.1 Objective
 
 With a view to making a unique, creative project, all datasets were synthetically generated while preserving realistic logistics behaviour, particularly when it comes to:
@@ -22,10 +22,10 @@ With a view to making a unique, creative project, all datasets were syntheticall
 
 ### 2.2 Tools and Libraries
 
-- pandas – data structures and export
-- numpy – random distributions
-- faker – realistic entity names
-- random – controlled randomness
+- **pandas** – data structures and export
+- **numpy** – random distributions
+- **faker** – realistic entity names
+- **random** – controlled randomness
 
 A fixed random seed (42) was used to ensure reproducibility.
 
@@ -324,14 +324,14 @@ After performing EDA on my tables, I realised that normalising the products tabl
 
 ### Conclusions on EDA
 
-We can observe that the synthetically generated tables were created successfully. Thanks to observatory functions like df.info, df.head, df.describe, etc. we could determine that there is no missing data, there are not outliers and there are not duplicated values.
+We can observe that the synthetically generated tables were created successfully. Thanks to observatory functions like df.info, df.head, df.describe, etc. we could determine that there is no missing data, no unexpected or data-quality outliers were identified and the tables are free from duplicated values.
 
 ## 3. SQL Server Modelling
 ### 3.1 Database Design
 
 All tables were loaded into a SQL Server database named Logistics.
 
-I chose to create a star schema for my Power BI report. This design supports efficient analytical queries and modelling. For this reason, I create the following views:
+I chose to create a star schema for my Power BI report. This design supports efficient analytical queries and modelling. For this reason, I made the following views:
 
 ```sql
 
