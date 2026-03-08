@@ -179,6 +179,9 @@ These KPIs dynamically respond to date, supplier, product, and category filters 
 
 ![alt text](Logistics_Dashboard.png)
 
+You can interact with the dashboard on Power BI Service [here](https://app.powerbi.com/links/4IqlU6Fswk?ctid=c876246e-3a26-4fbb-b702-b35bb76c149d&pbi_source=linkShare)
+
+
 ## Key Insights
 
 
